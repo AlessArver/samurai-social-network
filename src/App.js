@@ -45,7 +45,7 @@ const AppContainer = compose(
 
 const MainApp = () => (
     <React.StrictMode>
-        <BrowserRouter>
+        <BrowserRouter basename='/samurai-social-network'>
             <Provider store={store}>
                 <AppContainer/>
             </Provider>
