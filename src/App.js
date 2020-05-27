@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, Suspense, lazy} from 'react'
+import {BrowserRouter, Route, withRouter} from 'react-router-dom'
+import './App.css'
+import HeaderContainer from './components/Header/HeaderContainer'
+import Nav from './components/Nav/Nav'
+import {connect, Provider} from 'react-redux'
+import {compose} from 'redux'
+import {initializeApp} from './redux/appReducer'
+import Preloader from './components/common/Preloader/Preloder'
+import store from './redux'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const DialogsContainer = lazy(() => import('./components/Dialogs/DialogsContainer'))
+const ProfileContainer = lazy(() => import('./components/Profile/ProfileContainer'))
+const UsersContainer = lazy(() => import('./components/Users/UsersContainer'))
+const Login = lazy(() => import('./components/Login/Login'))
+
+const App = props => {
+    useEffect(() => props.initializeApp(), [props.initialized])
+
+    if (props.initialized)
+        return (
+            <div className='app-wrapper'>
+                <HeaderContainer/>
+                <Nav/>
+                <div className='app-wrapper-content'>
+                    <Suspense fallback={<Preloader/>}>
+                        <Route path='/profile/:id?' render={() => <ProfileContainer/>}/>
+                        <Route path='/dialogs' render={() => <DialogsContainer/>}/>
+                        <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/login' render={() => <Login/>}/>
+                    </Suspense>
+
+                </div>
+            </div>
+        )
+    else return <Preloader/>
 }
 
-export default App;
+const mapStateToProps = state => ({initialized: state.app.initialized})
+
+const AppContainer = compose(
+    connect(mapStateToProps, {initializeApp}),
+    withRouter
+)(App)
+
+const MainApp = () => (
+    <React.StrictMode>
+        <BrowserRouter>
+            <Provider store={store}>
+                <AppContainer/>
+            </Provider>
+        </BrowserRouter>
+    </React.StrictMode>
+)
+export default MainApp

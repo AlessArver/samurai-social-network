@@ -1,0 +1,15 @@
+.messageWrapper {
+    width: 100%;
+}
+
+.message {
+    margin: 5px 0;
+    padding: 10px;
+    background: lightblue;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.unreaded {
+    background: lightgray;
+}

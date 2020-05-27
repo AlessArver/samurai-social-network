@@ -1,0 +1,46 @@
+.newPost {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid lightblue;
+    font-size: 18px;
+}
+
+.post {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 5px 1px lightblue;
+    font-size: 18px;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 1fr 30px;
+    grid-gap: 10px;
+    grid-template-areas:
+            "avatarWrapper postText"
+            "buttons buttons";
+}
+
+.avatarWrapper {
+    grid-area: avatarWrapper;
+}
+.avatarWrapper img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.postText {
+    grid-area: postText;
+}
+
+.buttons {
+    grid-area: buttons;
+}
+.buttons span {
+    cursor: pointer;
+}

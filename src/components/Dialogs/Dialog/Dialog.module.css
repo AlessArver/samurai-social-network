@@ -1,0 +1,16 @@
+.dialog {
+    margin: 5px 0;
+    padding: 10px;
+    background: lightgray;
+    display: flex;
+    align-items: center;
+}
+
+.active {
+    background: gray;
+}
+
+.dialog .avatar-wrapper {}
+.text {
+    margin-left: 10px;
+}
