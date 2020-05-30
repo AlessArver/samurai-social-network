@@ -1,12 +1,13 @@
 import React from 'react'
 import * as s from './forms.module.css'
 import {Field} from 'redux-form';
+import cn from 'classnames'
 
 const Form = ({input, meta: {touched, error}, el, ...props}) => {
     const showError = touched && error
 
     return (
-        <div className={`${s.form} ${showError ? s.error : ''}`}>
+        <div className={cn(s.form, {[s.error]: showError})}>
             {React.createElement(el, {...input, ...props})}
             {showError && <small>{error}</small>}
         </div>

@@ -1,12 +1,12 @@
-import React from "react";
-import {setAuthUserData} from "./authReducer";
+import React from 'react'
+import { setAuthUserData } from './authReducer'
 
 const state = {
-    id: null,
-    email: null,
-    login: null,
-    isFetching: false,
-    isAuth: false
+  id: null,
+  email: null,
+  login: null,
+  isFetching: false,
+  isAuth: false
 }
 
 // it("userData should be setted", () => {
