@@ -1,5 +1,5 @@
 import React from 'react'
-import profileReducer, { addPost, deletePost, setStatus } from './profileReducer'
+import profileReducer, { addPost, deletePost, setStatus } from './reducers/profileReducer'
 
 const state = {
   posts: [

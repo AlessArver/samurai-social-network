@@ -1,6 +1,6 @@
 import React from 'react'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
-import PostsContainer from './Posts/PostsContainer'
+import PostsContainer from '../../containers/PostsContainer'
 
 const Profile = props => {
   return <>

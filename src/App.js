@@ -1,17 +1,17 @@
 import React, { Suspense, lazy } from 'react'
 import { BrowserRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import './App.css'
-import HeaderContainer from './components/Header/HeaderContainer'
+import HeaderContainer from './containers/HeaderContainer'
 import Nav from './components/Nav/Nav'
 import { connect, Provider } from 'react-redux'
 import { compose } from 'redux'
-import { initializeApp } from './redux/appReducer'
+import { initializeApp } from './redux/reducers/appReducer'
 import Preloader from './components/common/Preloader/Preloder'
 import store from './redux'
 
-const DialogsContainer = lazy(() => import('./components/Dialogs/DialogsContainer'))
-const ProfileContainer = lazy(() => import('./components/Profile/ProfileContainer'))
-const UsersContainer = lazy(() => import('./components/Users/UsersContainer'))
+const DialogsContainer = lazy(() => import('./containers/DialogsContainer'))
+const ProfileContainer = lazy(() => import('./containers/ProfileContainer'))
+const UsersContainer = lazy(() => import('./containers/UsersContainer'))
 const Login = lazy(() => import('./components/Login/Login'))
 
 class App extends React.Component {

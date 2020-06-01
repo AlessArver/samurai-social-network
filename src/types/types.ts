@@ -1,9 +1,5 @@
 import { ResultCodes, ResultCodeWithCaptcha } from '../api/api'
 
-export type InitialStateType = {
-  initialized: boolean
-}
-
 export type DialogType = {
   id: number
   name: string
@@ -37,8 +33,8 @@ export type ProfileType = {
   lookingForAJob: boolean
   lookingForAJobDescription: string | null
   fullName: string
-  contacts: Array<ContactsType>
-  photos: Array<PhotosType>
+  contacts: ContactsType
+  photos: PhotosType
 }
 
 export type UserType = {
@@ -89,12 +85,14 @@ export type ProfileGet = {
   lookingForAJob: boolean
   lookingForAJobDescription: string
   fullName: string
-  contacts: Array<ContactsType>
-  photos: Array<PhotosType>
+  contacts: ContactsType
+  photos: PhotosType
 }
 export type ProfileSaveAvatar = {
-  data: Array<PhotosType>
-  resultCode: ResultCodes
+  data: {
+    photos: PhotosType
+    resultCode: ResultCodes
+  }
   messages: Array<string>
 }
 export type ProfileUpdate = {
@@ -102,7 +100,9 @@ export type ProfileUpdate = {
   lookingForAJob: boolean
   lookingForAJobDescription: string
   fullName: string
-  contacts: Array<ContactsType>
+  contacts: ContactsType
+  resultCode: ResultCodes
+  messages: Array<string>
 }
 
 export type UsersGet = {

@@ -1,5 +1,5 @@
-import { profileReducer } from './profileReducer'
-import { dialogsReducer } from './dialogsReducer'
+import { profileReducer } from './reducers/profileReducer'
+import { dialogsReducer } from './reducers/dialogsReducer'
 
 const store = {
   _state: {

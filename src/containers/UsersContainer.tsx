@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Users from './Users'
-import {
-  follow,
-  requestUsers,
-  setCurrentPage,
-  unfollow
-} from '../../redux/usersReducer'
+import Users from '../components/Users/Users'
+import { follow, requestUsers, unfollow } from '../redux/reducers/usersReducer'
 import { compose } from 'redux'
-import { withAuthRedirect } from '../../hoc/withAuthRedirect'
+import { withAuthRedirect } from '../hoc/withAuthRedirect'
 import {
   getUsers,
   getCurrentPage,
@@ -16,9 +11,9 @@ import {
   getIsFetching,
   getPageSize,
   getTotalUsersCount
-} from '../../redux/usersSelectors'
-import { UserType } from '../../types/types'
-import { AppStateType } from '../../redux'
+} from '../redux/usersSelectors'
+import { UserType } from '../types/types'
+import { AppStateType } from '../redux'
 
 type OwnPropsType = {
   pageTitle: String
@@ -35,7 +30,6 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
   follow: (id: number) => void
   unfollow: (id: number) => void
-  setCurrentPage: (currentPage: number) => void
   requestUsers: (currentPage: number, pageSize: number) => void
 }
 type PropsType = OwnPropsType & MapStatePropsType & MapDispatchPropsType
@@ -48,7 +42,6 @@ class UsersAPIComponent extends Component<PropsType> {
 
   onPageChanged = (currentPage: number) => {
     const {pageSize} = this.props
-    this.props.setCurrentPage(currentPage)
     this.props.requestUsers(currentPage, pageSize)
   }
 
@@ -80,11 +73,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
 })
 
 export default compose(
-  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-    setCurrentPage,
-    requestUsers,
-    follow,
-    unfollow
-  }),
+  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps,
+    {requestUsers, follow, unfollow}),
   withAuthRedirect
 )(UsersAPIComponent)

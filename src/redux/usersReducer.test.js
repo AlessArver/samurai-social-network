@@ -5,7 +5,7 @@ import usersReducer, {
   setUsers,
   toggleIsFetching, toggleIsFollowingInProgress,
   toggleIsFollowSuccess
-} from './usersReducer'
+} from './reducers/usersReducer'
 
 const state = {
   users: [

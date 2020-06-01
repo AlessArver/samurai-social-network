@@ -1,5 +1,5 @@
 import React from 'react'
-import { setAuthUserData } from './authReducer'
+import { setAuthUserData } from './reducers/authReducer'
 
 const state = {
   id: null,

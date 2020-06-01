@@ -21,6 +21,7 @@ export enum ResultCodes {
   Success = 0,
   Error = 1
 }
+
 export enum ResultCodeWithCaptcha {
   CaptchaIsRequired = 10
 }
@@ -55,7 +56,7 @@ export const profileApi = {
   },
   getStatus(id: number) {
     return instance
-      .get<ProfileGetStatusAPI>(`profile/status/${id}`)
+      .get<string>(`profile/status/${id}`)
       .then(res => res.data)
   },
   updateStatus(status: string) {
@@ -66,7 +67,7 @@ export const profileApi = {
     const formData = new FormData()
     formData.append('image', file)
     return instance
-      .put<ProfileSaveAvatar>('profile/photo', formData, {
+      .put('profile/photo', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -87,7 +88,7 @@ export const authApi = {
       .get<AuthMeAPI>(`auth/me`)
       .then(res => res.data)
   },
-  login(email: string, password: string, rememberMe = false, captcha: null | string = null) {
+  login(email: string, password: string, rememberMe = false, captcha: string | null = null) {
     return instance
       .post<AuthLoginAPI>('auth/login', {email, password, rememberMe, captcha})
       .then(res => res.data)
