@@ -2,25 +2,18 @@ import React, { FC } from 'react'
 import * as s from './User.module.css'
 import Preloader from '../../common/Preloader/Preloder'
 import { NavLink } from 'react-router-dom'
-import { UserType } from '../../../types/types'
+import { UserPropsType } from '../../../types/user'
 
-type UserPropsType = {
-  user: UserType
-  isFetching: boolean
-  followingInProgress: Array<number>
-  follow: (id: number) => void
-  unfollow: (id: number) => void
-}
-const User: FC<UserPropsType> = ({ user, isFetching, followingInProgress, follow, unfollow }) => {
+
+const User: FC<UserPropsType> = ({user, isFetching, followingInProgress, follow, unfollow}) => {
   return (
     <>
       <NavLink to={`/profile/${user.id}`}>
-        <div className="avatar-wrapper">
+        <div className='avatar-wrapper'>
           {isFetching
             ? <Preloader/>
-            : <img src={
-              user.photos.small
-              || 'https://data.whicdn.com/images/331901362/original.jpg'
+            : <img src={user.photos.small
+                        || 'https://data.whicdn.com/images/331901362/original.jpg'
             }/>
           }
         </div>

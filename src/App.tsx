@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import React, { Suspense, lazy, Component, FC, ComponentType } from 'react'
 import { BrowserRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import './App.css'
 import HeaderContainer from './containers/HeaderContainer'
@@ -7,14 +7,16 @@ import { connect, Provider } from 'react-redux'
 import { compose } from 'redux'
 import { initializeApp } from './redux/reducers/appReducer'
 import Preloader from './components/common/Preloader/Preloder'
-import store from './redux'
+import store, { AppStateType } from './redux'
+import * as A from './types/app'
 
+//const FunComponent = (lazy(() => (import('./FunComponent'))))
 const DialogsContainer = lazy(() => import('./containers/DialogsContainer'))
 const ProfileContainer = lazy(() => import('./containers/ProfileContainer'))
 const UsersContainer = lazy(() => import('./containers/UsersContainer'))
 const Login = lazy(() => import('./components/Login/Login'))
 
-class App extends React.Component {
+class App extends Component<A.AppStoreProps> {
   componentDidMount() {
     this.props.initializeApp()
   }
@@ -31,12 +33,11 @@ class App extends React.Component {
                 <Route exact path='/' render={() => <Redirect to='/profile'/>}/>
                 <Route path='/profile/:id?' render={() => <ProfileContainer/>}/>
                 <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-                <Route path='/users' render={() => <UsersContainer pageTitle='Samurai'/>}/>
+                <Route path='/users' render={() => <UsersContainer/>}/>
                 <Route path='/login' render={() => <Login/>}/>
                 <Route path='*' render={() => <div>404 Not Found</div>}/>
               </Switch>
             </Suspense>
-
           </div>
         </div>
       )
@@ -44,14 +45,14 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ initialized: state.app.initialized })
+const mapStateToProps = (state: AppStateType): A.AppMapStateToProps =>
+  ({initialized: state.app.initialized})
 
-const AppContainer = compose(
-  connect(mapStateToProps, { initializeApp }),
-  withRouter
-)(App)
+const AppContainer = compose<ComponentType>(
+  connect(mapStateToProps, {initializeApp}),
+  withRouter)(App)
 
-const MainApp = () => (
+const MainApp: FC = () => (
   <React.StrictMode>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Provider store={store}>

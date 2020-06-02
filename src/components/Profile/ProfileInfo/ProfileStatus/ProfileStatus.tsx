@@ -1,13 +1,12 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import * as s from './ProfileStatus.module.css'
-import { maxLength } from '../../../../utils/validators'
 
 type PropsType = {
   status: string
   updateStatus: (status: string) => void
 }
 
-const ProfileStatusWithHooks: FC<PropsType> = (props) => {
+const ProfileStatus: FC<PropsType> = (props) => {
   let [editMode, setEditMode] = useState<boolean>(false)
   let [status, setStatus] = useState<string>(props.status)
 
@@ -42,4 +41,4 @@ const ProfileStatusWithHooks: FC<PropsType> = (props) => {
   )
 }
 
-export default ProfileStatusWithHooks
+export default ProfileStatus

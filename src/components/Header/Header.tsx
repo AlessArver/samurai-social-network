@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 import s from './Header.module.css'
-import { HeaderProps } from '../../containers/HeaderContainer'
+import * as H from '../../types/header'
 
-const Header: FC<HeaderProps> = ({isAuth, logout}) => (
+const Header: FC<H.HeaderStoreProps> = ({isAuth, logout}) => (
   <header className={s.header}>
     <NavLink to='/'>Logo</NavLink>
     {isAuth

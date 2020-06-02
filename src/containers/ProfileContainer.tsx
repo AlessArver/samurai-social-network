@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ComponentType } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getProfile, getStatus, saveAvatar, updateStatus, saveProfile } from '../redux/reducers/profileReducer'
@@ -6,40 +6,38 @@ import Profile from '../components/Profile/Profile'
 import { withAuthRedirect } from '../hoc/withAuthRedirect'
 import { compose } from 'redux'
 import { AppStateType } from '../redux'
+import { ProfileType } from '../types/types'
 
-export type ProfileMapStateToProps = {
-  userId: number
-  isAuth: boolean
-  profile: ProfileType
-  status: string
-}
+type ProfileMapStateToProps = ReturnType<typeof mapStateToProps>
 export type ProfileMapDispatchToProps = {
   getProfile: (id: number) => void
   getStatus: (id: number) => void
-  updateStatus: () => void
-  saveAvatar: () => void
-  saveProfile: () => void
+  updateStatus: (status: string) => void
+  saveAvatar: (file: File) => void
+  saveProfile: (profile: ProfileType) => Promise<any>
 }
-type ProfileType = ProfileMapStateToProps & ProfileMapDispatchToProps
+type ProfileTyp = ProfileMapStateToProps & ProfileMapDispatchToProps
 
 interface ProfileParamsType {
-  id?: string | undefined
+  id: string
 }
 
-class ProfileContainer extends React.Component<ProfileType & RouteComponentProps<ProfileParamsType>> {
+type PropsType = ProfileTyp & RouteComponentProps<ProfileParamsType>
+
+class ProfileContainer extends React.Component<PropsType> {
   refreshProfile() {
-    let id = this.props.match.params.id
-    // if (!id && this.props.isAuth) id = this.props.userId
-    // if (!id && !this.props.isAuth) this.props.history.push('/login')
-    // this.props.getProfile(id)
-    // this.props.getStatus(id)
+    let id: number | null = +this.props.match.params.id
+    if (!id && this.props.isAuth) id = this.props.userId
+    if (!id && !this.props.isAuth) this.props.history.push('/')
+    this.props.getProfile(id as number)
+    this.props.getStatus(id as number)
   }
 
   componentDidMount() {
     this.refreshProfile()
   }
 
-  componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+  componentDidUpdate(prevProps: PropsType, prevState: PropsType) {
     if (this.props.match.params.id !== prevProps.match.params.id)
       this.refreshProfile()
   }
@@ -64,14 +62,11 @@ const mapStateToProps = (state: AppStateType) => ({
   status: state.profilePage.status
 })
 
-export default compose(
+export default compose<ComponentType>(
   connect(mapStateToProps, {
     getProfile,
     getStatus,
     updateStatus,
     saveAvatar,
     saveProfile
-  }),
-  withRouter,
-  withAuthRedirect
-)(ProfileContainer)
+  }), withRouter)(ProfileContainer)

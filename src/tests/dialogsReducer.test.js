@@ -1,5 +1,5 @@
 import React from 'react'
-import dialogsReducer, { addMessage, deleteMessage } from './reducers/dialogsReducer'
+import dialogsReducer, { addMessage, deleteMessage } from '../redux/reducers/dialogsReducer'
 
 const state = {
   messages: [

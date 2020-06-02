@@ -1,3 +1,3 @@
 export const appActions = {
-  initializedSuccess: () => ({ type: 'INITIALIZED_SUCCESS' })
+  initializedSuccess: () => ({ type: 'SN/APP/INITIALIZED_SUCCESS' })
 }

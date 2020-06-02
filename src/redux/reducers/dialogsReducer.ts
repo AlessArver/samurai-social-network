@@ -1,6 +1,6 @@
 import { DialogType, MessageType } from '../../types/types'
 import { ThunkAction } from 'redux-thunk'
-import { AppStateType, InferActionsTypes } from '../index'
+import { AppStateType, InferActionsTypes, ThunkType } from '../index'
 import { dialogActions } from '../actions/dialog'
 
 const initialState = {
@@ -16,11 +16,11 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 type ActionsType = InferActionsTypes<typeof dialogActions>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
+type T = ThunkType<ActionsType>
 
 export default (state = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
-    case 'ADD_MESSAGE':
+    case 'SN/DIALOGS/ADD_MESSAGE':
       return {
         ...state,
         messages: [
@@ -28,7 +28,7 @@ export default (state = initialState, action: ActionsType): InitialStateType => 
           {id: 3, text: action.text}
         ]
       }
-    case 'DELETE_MESSAGE':
+    case 'SN/DIALOGS/DELETE_MESSAGE':
       return {
         ...state,
         messages: state.messages.filter(m => m.id !== action.id)

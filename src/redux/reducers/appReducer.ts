@@ -1,18 +1,17 @@
 import { getAuthUser } from './authReducer'
 import { appActions } from '../actions/app'
-import { AppStateType, InferActionsTypes } from '../index'
-import { ThunkAction } from 'redux-thunk'
+import { InferActionsTypes, ThunkType } from '../index'
 
 const initialState = {
   initialized: false
 }
 type InitialStateType = typeof initialState
 type ActionsType = InferActionsTypes<typeof appActions>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
+type T = ThunkType<ActionsType>
 
 const appReducer = (state = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
-    case 'INITIALIZED_SUCCESS':
+    case 'SN/APP/INITIALIZED_SUCCESS':
       return {
         ...state,
         initialized: true

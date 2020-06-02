@@ -1,40 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component, ComponentType } from 'react'
 import { connect } from 'react-redux'
 import Users from '../components/Users/Users'
 import { follow, requestUsers, unfollow } from '../redux/reducers/usersReducer'
 import { compose } from 'redux'
 import { withAuthRedirect } from '../hoc/withAuthRedirect'
 import {
-  getUsers,
-  getCurrentPage,
-  getFollowingInProgress,
-  getIsFetching,
-  getPageSize,
-  getTotalUsersCount
-} from '../redux/usersSelectors'
-import { UserType } from '../types/types'
+  getUsers, getCurrentPage, getFollowingInProgress,
+  getIsFetching, getPageSize, getTotalUsersCount
+} from '../selectors/usersSelectors'
 import { AppStateType } from '../redux'
+import * as U from '../types/user'
 
-type OwnPropsType = {
-  pageTitle: String
-}
-type MapStatePropsType = {
-  pageSize: number
-  currentPage: number
-  totalUsersCount: number
-  isFetching: boolean
-  users: Array<UserType>
-  followingInProgress: Array<number>
-
-}
-type MapDispatchPropsType = {
-  follow: (id: number) => void
-  unfollow: (id: number) => void
-  requestUsers: (currentPage: number, pageSize: number) => void
-}
-type PropsType = OwnPropsType & MapStatePropsType & MapDispatchPropsType
-
-class UsersAPIComponent extends Component<PropsType> {
+class UsersAPIComponent extends Component<U.UserAllProps> {
   componentDidMount() {
     const {currentPage, pageSize} = this.props
     this.props.requestUsers(currentPage, pageSize)
@@ -63,7 +40,7 @@ class UsersAPIComponent extends Component<PropsType> {
   }
 }
 
-const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
+const mapStateToProps = (state: AppStateType): U.UserMapStatePropsType => ({
   users: getUsers(state),
   pageSize: getPageSize(state),
   totalUsersCount: getTotalUsersCount(state),
@@ -72,8 +49,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
   followingInProgress: getFollowingInProgress(state)
 })
 
-export default compose(
-  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps,
-    {requestUsers, follow, unfollow}),
-  withAuthRedirect
-)(UsersAPIComponent)
+// <U.UserAllProps, AppStateType>
+export default compose<ComponentType>(
+  connect(mapStateToProps, {requestUsers, follow, unfollow}),
+  withAuthRedirect)(UsersAPIComponent)

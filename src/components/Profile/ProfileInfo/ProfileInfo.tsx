@@ -1,20 +1,33 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, FC, useState } from 'react'
 import s from './ProfileInfo.module.css'
 import Preloader from '../../common/Preloader/Preloder'
-import ProfileStatusWithHooks from './ProfileStatus/ProfileStatusWithHooks'
+import ProfileStatus from './ProfileStatus/ProfileStatus'
 import ProfileDataForm from './ProfileDataForm/ProfileDataFormm'
 import ProfileData from './ProfileData/ProfileData'
+import { ProfileType } from '../../../types/types'
 
-const ProfileInfo = ({ profile, isOwner, status, updateStatus, saveProfile, ...props }) => {
+type Props = {
+  isOwner: boolean
+  profile: ProfileType | null
+  saveAvatar: (file: File) => void
+  status: string
+  updateStatus: (status: string) => void
+  saveProfile: (profile: ProfileType) => Promise<any>
+}
+
+const ProfileInfo: FC<Props> = ({
+                                  profile, isOwner, status,
+                                  updateStatus, saveProfile, saveAvatar
+                                }) => {
   const [edit, setEdit] = useState(false)
   if (!profile) return <Preloader/>
 
-  const onAvatarSelected = e => {
-    if (e.target.files.length)
-      props.saveAvatar(e.target.files[0])
+  const onAvatarSelected = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length)
+      saveAvatar(e.target.files[0])
   }
 
-  const onSubmit = data => saveProfile(data).then(() => setEdit(false))
+  const onSubmit = (data: ProfileType) => saveProfile(data).then(() => setEdit(false))
 
   return (
     <>
@@ -33,10 +46,10 @@ const ProfileInfo = ({ profile, isOwner, status, updateStatus, saveProfile, ...p
         {isOwner && <input type='file' onChange={onAvatarSelected} className={s.buttonGroupItem}/>}
       </div>
       {!edit
-        ? <ProfileData profile={profile} isOwner={isOwner} onAvatarSelected={onAvatarSelected}/>
+        ? <ProfileData profile={profile}/>
         : <ProfileDataForm initialValues={profile} profile={profile} onSubmit={onSubmit}/>
       }
-      <ProfileStatusWithHooks
+      <ProfileStatus
         status={status}
         updateStatus={updateStatus}
       />

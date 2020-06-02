@@ -3,12 +3,12 @@ import { Redirect } from 'react-router-dom'
 import s from './Dialogs.module.css'
 import Dialog from './Dialog/Dialog'
 import Message from './Message/Message'
-import { DialogsMapDispatchToProps, DialogsMapStateToProps } from '../../containers/DialogsContainer'
-import MessageAddReduxForm, { MessageFormType } from './MessageAddForm'
+import MessageAddReduxForm from './MessageAddForm'
+import * as D from '../../types/dialog'
 
-const Dialogs: FC<DialogsMapStateToProps & DialogsMapDispatchToProps> = props => {
-  const onSubmit = (formData: MessageFormType) => {
-    props.addMessage(formData.message)
+const Dialogs: FC<D.DialogsMapStateToProps & D.DialogsMapDispatchToProps> = props => {
+  const onSubmit = (data: D.MessageFormType) => {
+    props.addMessage(data.message)
   }
 
   let dialogs = props.dialogs.map(d => <Dialog id={d.id} name={d.name} key={d.id}/>)

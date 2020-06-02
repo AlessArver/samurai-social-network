@@ -1,5 +1,3 @@
-import { ResultCodes, ResultCodeWithCaptcha } from '../api/api'
-
 export type DialogType = {
   id: number
   name: string
@@ -24,6 +22,8 @@ export type ContactsType = {
   youtube: string
   mainLink: string
 }
+export type ContactsKeys  = Extract<keyof ContactsType, string>
+
 export type PhotosType = {
   small: string | null
   large: string | null
@@ -32,6 +32,7 @@ export type ProfileType = {
   userId: number
   lookingForAJob: boolean
   lookingForAJobDescription: string | null
+  aboutMe?: string | null
   fullName: string
   contacts: ContactsType
   photos: PhotosType
@@ -48,75 +49,4 @@ export type UserType = {
   followed: boolean
 }
 
-export type AuthMeAPI = {
-  data: {
-    id: number,
-    email: string,
-    login: string
-  }
-  resultCode: ResultCodes
-  messages: Array<string>
-}
-export type AuthLoginAPI = {
-  data: {
-    userId: number
-  }
-  resultCode: ResultCodes | ResultCodeWithCaptcha
-  messages: Array<string>
-}
-export type AuthLogoutAPI = {
-  resultCode: ResultCodes
-}
-
-export type SecurityAPI = {
-  url: string
-}
-
-export type ProfileGetStatusAPI = {
-  status: string
-}
-export type ProfileUpdateStatusAPI = {
-  resultCode: ResultCodes
-  messages: Array<string>
-  data: any
-}
-export type ProfileGet = {
-  userId: number
-  lookingForAJob: boolean
-  lookingForAJobDescription: string
-  fullName: string
-  contacts: ContactsType
-  photos: PhotosType
-}
-export type ProfileSaveAvatar = {
-  data: {
-    photos: PhotosType
-    resultCode: ResultCodes
-  }
-  messages: Array<string>
-}
-export type ProfileUpdate = {
-  userId: number
-  lookingForAJob: boolean
-  lookingForAJobDescription: string
-  fullName: string
-  contacts: ContactsType
-  resultCode: ResultCodes
-  messages: Array<string>
-}
-
-export type UsersGet = {
-  items: Array<UserType>
-  totalCount: number
-  error: string
-}
-export type UserFollow = {
-  resultCode: ResultCodes
-  messages: Array<string>
-  data: any
-}
-export type UserUnfollow = {
-  resultCode: ResultCodes
-  messages: Array<string>
-  data: any
-}
+export type GetStringKeys<T> = Extract<keyof T, string>
